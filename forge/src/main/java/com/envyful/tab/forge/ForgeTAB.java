@@ -1,9 +1,11 @@
 package com.envyful.tab.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
+import com.envyful.api.forge.concurrency.ForgeTaskBuilder;
 import com.envyful.api.forge.concurrency.ForgeUpdateBuilder;
 import com.envyful.tab.forge.api.ForgeTabGroupFactory;
 import com.envyful.tab.forge.config.TABConfig;
+import com.envyful.tab.forge.task.PlayerUpdateTask;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -46,6 +48,13 @@ public class ForgeTAB {
                 .requiredPermission("tab.update.notify")
                 .owner("Pixelmon-Development")
                 .repo("ForgeTAB")
+                .start();
+
+        new ForgeTaskBuilder()
+                .async(true)
+                .delay(10L)
+                .interval(10L)
+                .task(new PlayerUpdateTask(this))
                 .start();
     }
 
