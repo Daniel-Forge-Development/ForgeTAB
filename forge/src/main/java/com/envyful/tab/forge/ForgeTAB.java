@@ -2,6 +2,7 @@ package com.envyful.tab.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.concurrency.ForgeUpdateBuilder;
+import com.envyful.tab.forge.api.ForgeTabGroupFactory;
 import com.envyful.tab.forge.config.TABConfig;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +30,8 @@ public class ForgeTAB {
     @Mod.EventHandler
     public void onServerStarting(FMLPreInitializationEvent event) {
         this.loadConfig();
+
+        ForgeTabGroupFactory.init(this.config);
 
         Metrics metrics = new Metrics(
                 Loader.instance().activeModContainer(),
