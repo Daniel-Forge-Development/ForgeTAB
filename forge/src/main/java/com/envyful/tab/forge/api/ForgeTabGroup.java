@@ -10,16 +10,23 @@ import org.spongepowered.configurate.ConfigurationNode;
  */
 public class ForgeTabGroup implements TabGroup {
 
+    private final String identifier;
     private final int weight;
     private final String permission;
     private final String prefix;
     private final String suffix;
 
     public ForgeTabGroup(ConfigurationNode node) {
+        this.identifier = node.getString();
         this.weight = node.node("weight").getInt();
         this.permission = node.node("permission").getString();
         this.prefix = node.node("prefix").getString();
         this.suffix = node.node("suffix").getString();
+    }
+
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
     }
 
     @Override

@@ -9,6 +9,14 @@ public interface TabGroup {
 
     /**
      *
+     * The group's identifier
+     *
+     * @return The identifier
+     */
+    String getIdentifier();
+
+    /**
+     *
      * The weight (priority) of the tab group. The higher the weight the higher the priority (i.e. higher weights get
      * put first)
      *
