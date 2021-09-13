@@ -1,8 +1,11 @@
 package com.envyful.tab.forge.task;
 
 import com.envyful.api.forge.chat.UtilChatColour;
+import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.api.player.EnvyPlayer;
 import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.tab.forge.ForgeTAB;
+import com.envyful.tab.forge.player.TabAttribute;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketPlayerListHeaderFooter;
 import net.minecraft.util.text.TextComponentString;
@@ -51,6 +54,7 @@ public class PlayerUpdateTask implements Runnable {
                     ).collect(Collectors.joining("\n"));
 
             this.sendHeaderAndFooter(player, header, footer);
+            this.sendUpdatePackets(player);
         }
     }
 
@@ -62,6 +66,21 @@ public class PlayerUpdateTask implements Runnable {
             player.connection.sendPacket(packet);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void sendUpdatePackets(EntityPlayerMP player) {
+        EnvyPlayer<EntityPlayerMP> envyPlayer = this.mod.getPlayerManager().getPlayer(player);
+        TabAttribute attribute = envyPlayer.getAttribute(ForgeTAB.class);
+
+        if (attribute == null) {
+            return;
+        }
+
+        attribute.reCalculateGroup();
+
+        for (ForgeEnvyPlayer onlinePlayer : this.mod.getPlayerManager().getOnlinePlayers()) {
+            attribute.sendPackets(onlinePlayer.getParent());
         }
     }
 }

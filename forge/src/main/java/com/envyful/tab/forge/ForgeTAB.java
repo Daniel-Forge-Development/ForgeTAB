@@ -2,20 +2,16 @@ package com.envyful.tab.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.concurrency.ForgeTaskBuilder;
-import com.envyful.api.forge.concurrency.ForgeUpdateBuilder;
+import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.tab.forge.api.ForgeTabGroupFactory;
 import com.envyful.tab.forge.config.TABConfig;
+import com.envyful.tab.forge.player.TabAttribute;
 import com.envyful.tab.forge.task.PlayerUpdateTask;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import org.apache.logging.log4j.core.config.yaml.YamlConfigurationFactory;
-import org.bstats.forge.Metrics;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 
 @Mod(
         modid = "forgetab",
@@ -27,6 +23,8 @@ public class ForgeTAB {
 
     public static final String VERSION = "0.0.1";
 
+    private final ForgePlayerManager playerManager = new ForgePlayerManager();
+
     private TABConfig config;
 
     @Mod.EventHandler
@@ -35,20 +33,7 @@ public class ForgeTAB {
 
         ForgeTabGroupFactory.init(this.config);
 
-        Metrics metrics = new Metrics(
-                Loader.instance().activeModContainer(),
-                event.getModLog(),
-                Paths.get("config/"),
-                12198 //TODO
-        );
-
-        ForgeUpdateBuilder.instance()
-                .name("ForgeTAB")
-                .version(VERSION)
-                .requiredPermission("tab.update.notify")
-                .owner("Pixelmon-Development")
-                .repo("ForgeTAB")
-                .start();
+        playerManager.registerAttribute(this, TabAttribute.class);
 
         new ForgeTaskBuilder()
                 .async(true)
@@ -73,5 +58,9 @@ public class ForgeTAB {
 
     public TABConfig getConfig() {
         return this.config;
+    }
+
+    public ForgePlayerManager getPlayerManager() {
+        return this.playerManager;
     }
 }
