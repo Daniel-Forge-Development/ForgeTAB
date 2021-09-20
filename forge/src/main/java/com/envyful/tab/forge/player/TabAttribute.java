@@ -11,10 +11,10 @@ import com.envyful.tab.forge.ForgeTAB;
 import com.envyful.tab.forge.api.ForgeTabGroupFactory;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.play.server.SPacketDisplayObjective;
-import net.minecraft.network.play.server.SPacketScoreboardObjective;
 import net.minecraft.network.play.server.SPacketTeams;
-import net.minecraft.scoreboard.*;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.Team;
 
 import java.util.Objects;
 
@@ -38,13 +38,10 @@ public class TabAttribute extends AbstractForgeAttribute<ForgeTAB> {
                 UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getSuffix())));
 
         Scoreboard scoreboard = new Scoreboard();
-        ScoreObjective objective = new ScoreObjective(scoreboard, "a", IScoreCriteria.HEALTH);
 
-        player.connection.sendPacket(new SPacketScoreboardObjective(objective, 0));
         player.connection.sendPacket(new SPacketTeams(this.team, 0));
         player.connection.sendPacket(new SPacketTeams(this.team, 2));
         player.connection.sendPacket(new SPacketTeams(this.team, Lists.newArrayList(this.parent.getName()), 3));
-        player.connection.sendPacket(new SPacketDisplayObjective(2, objective));
     }
 
     public void reCalculateGroup() {

@@ -5,7 +5,6 @@ import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.tab.forge.ForgeTAB;
-import com.envyful.tab.forge.api.ForgeTabGroup;
 import com.envyful.tab.forge.api.ForgeTabGroupFactory;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
