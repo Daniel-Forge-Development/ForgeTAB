@@ -25,6 +25,11 @@ public class ForgeTabGroupFactory {
         GROUPS.sort(Comparator.comparing(TabGroup::getWeight));
     }
 
+    public static void reload(TABConfig config) {
+        GROUPS.clear();
+        init(config);
+    }
+
     public static List<TabGroup> getGroups() {
         return GROUPS;
     }
