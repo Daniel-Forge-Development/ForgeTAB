@@ -22,6 +22,8 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+forgeVersion = '1.16.5'
+
 repositories {
     maven {
         name = 'spongepowered-repo'
@@ -69,3 +71,4 @@ reobf {
 }
 
 jar.finalizedBy('reobfJar')
+build.finalizedBy('versionedRelease')
