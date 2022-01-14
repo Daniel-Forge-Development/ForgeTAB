@@ -18,6 +18,7 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class TabAttribute extends AbstractForgeAttribute<ForgeTAB> {
 
@@ -26,6 +27,10 @@ public class TabAttribute extends AbstractForgeAttribute<ForgeTAB> {
 
     public TabAttribute(ForgeTAB manager, EnvyPlayer<?> parent) {
         super(manager, (ForgeEnvyPlayer) parent);
+    }
+
+    public TabAttribute(UUID uuid) {
+        super(uuid);
     }
 
     public void sendPackets(ServerPlayerEntity player) {
