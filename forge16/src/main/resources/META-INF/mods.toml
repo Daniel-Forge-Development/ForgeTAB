@@ -7,7 +7,7 @@ loaderVersion="[36,)"
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
 license="All Rights Reserved"
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/Daniel-Forge-Development/ForgeMenus/issues"
+issueTrackerURL="https://github.com/EnvyWare/ForgeMenus/issues"
 # If the mods defined in this file should show as separate resource packs
 showAsResourcePack=false
 

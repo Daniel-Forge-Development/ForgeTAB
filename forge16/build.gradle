@@ -40,10 +40,10 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
 
-    compileOnly 'com.github.Daniel-Forge-Development.ForgePlaceholderAPI:api:2.0.0'
+    compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.0'
 
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'commons', version: '1.9.3'
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'forge16', version: '1.9.3'
+    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '1.9.4'
+    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '1.9.4'
 
     shadow project(':api')
 }
