@@ -41,6 +41,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
 
     compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.0'
+    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
     shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.6.9'
     shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.6.9'
