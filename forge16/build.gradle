@@ -42,8 +42,8 @@ dependencies {
 
     compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.0'
 
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '1.9.6'
-    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '1.9.6'
+    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.6.9'
+    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.6.9'
 
     shadow project(':api')
 }

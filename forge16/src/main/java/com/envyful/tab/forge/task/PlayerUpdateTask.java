@@ -8,6 +8,7 @@ import com.envyful.tab.forge.ForgeTAB;
 import com.envyful.tab.forge.player.TabAttribute;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPlayerListHeaderFooterPacket;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
@@ -39,29 +40,27 @@ public class PlayerUpdateTask implements Runnable {
     @Override
     public void run() {
         for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            String header = this.mod.getConfig().getHeader().stream()
-                    .map(s -> UtilChatColour.translateColourCodes(
-                            '&',
+            ITextComponent header = this.mod.getConfig().getHeader().stream()
+                    .map(s -> UtilChatColour.colour(
                             UtilPlaceholder.replaceIdentifiers(player, s)
                          )
-                    ).collect(Collectors.joining("\n"));
-            String footer = this.mod.getConfig().getFooter().stream()
-                    .map(s -> UtilChatColour.translateColourCodes(
-                            '&',
+                    ).reduce(StringTextComponent.EMPTY, (textComponent, textComponent2) -> textComponent.copy().append(textComponent2));
+            ITextComponent footer = this.mod.getConfig().getFooter().stream()
+                    .map(s -> UtilChatColour.colour(
                             UtilPlaceholder.replaceIdentifiers(player, s)
                          )
-                    ).collect(Collectors.joining("\n"));
+                    ).reduce(StringTextComponent.EMPTY, (textComponent, textComponent2) -> textComponent.copy().append(textComponent2));
 
             this.sendHeaderAndFooter(player, header, footer);
             this.sendUpdatePackets(player);
         }
     }
 
-    private void sendHeaderAndFooter(ServerPlayerEntity player, String header, String footer) {
+    private void sendHeaderAndFooter(ServerPlayerEntity player, ITextComponent header, ITextComponent footer) {
         try {
             SPlayerListHeaderFooterPacket packet = new SPlayerListHeaderFooterPacket();
-            headerField.set(packet, new StringTextComponent(header));
-            footerField.set(packet, new StringTextComponent(footer));
+            headerField.set(packet, header);
+            footerField.set(packet, footer);
             player.connection.send(packet);
         } catch (Exception e) {
             e.printStackTrace();
