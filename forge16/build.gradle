@@ -30,10 +30,8 @@ repositories {
         url = 'https://repo.spongepowered.org/maven'
     }
 
-    maven { url 'https://jitpack.io' }
-
-    flatDir {
-        dirs '../../Libraries/'
+    maven {
+        url "https://maven.envyware.co.uk/releases"
     }
 }
 
@@ -43,8 +41,8 @@ dependencies {
     compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.0'
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.6.9'
-    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.6.9') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '4.2.0'
+    shadow (group: 'com.envyful.api', name: 'forge16', version: '4.2.0') {
         transitive = false
     }
 
