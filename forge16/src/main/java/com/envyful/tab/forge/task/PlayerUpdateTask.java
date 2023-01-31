@@ -13,7 +13,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.lang.reflect.Field;
-import java.util.stream.Collectors;
 
 public class PlayerUpdateTask implements Runnable {
 
@@ -44,12 +43,12 @@ public class PlayerUpdateTask implements Runnable {
                     .map(s -> UtilChatColour.colour(
                             UtilPlaceholder.replaceIdentifiers(player, s)
                          )
-                    ).reduce(StringTextComponent.EMPTY, (textComponent, textComponent2) -> textComponent.copy().append(textComponent2));
+                    ).reduce(StringTextComponent.EMPTY, (textComponent, textComponent2) -> textComponent.copy().append(System.lineSeparator()).append(textComponent2));
             ITextComponent footer = this.mod.getConfig().getFooter().stream()
                     .map(s -> UtilChatColour.colour(
                             UtilPlaceholder.replaceIdentifiers(player, s)
                          )
-                    ).reduce(StringTextComponent.EMPTY, (textComponent, textComponent2) -> textComponent.copy().append(textComponent2));
+                    ).reduce(StringTextComponent.EMPTY, (textComponent, textComponent2) -> textComponent.copy().append(System.lineSeparator()).append(textComponent2));
 
             this.sendHeaderAndFooter(player, header, footer);
             this.sendUpdatePackets(player);
