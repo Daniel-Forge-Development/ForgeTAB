@@ -1,55 +1,45 @@
 package com.envyful.tab.forge.player;
 
 import com.envyful.api.forge.chat.UtilChatColour;
-import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
 import com.envyful.api.forge.player.util.UtilPlayer;
-import com.envyful.api.player.EnvyPlayer;
-import com.envyful.api.player.PlayerManager;
 import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.tab.api.TabGroup;
 import com.envyful.tab.forge.ForgeTAB;
 import com.envyful.tab.forge.api.ForgeTabGroupFactory;
-import com.google.common.collect.Lists;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.server.STeamsPacket;
-import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.scoreboard.Team;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.scores.Team;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class TabAttribute extends AbstractForgeAttribute<ForgeTAB> {
 
-    private ScorePlayerTeam team;
+    private PlayerTeam team;
     private TabGroup tabGroup;
 
     public TabAttribute(ForgeTAB manager, ForgePlayerManager playerManager) {
         super(manager, playerManager);
     }
 
-    public void sendPackets(ServerPlayerEntity player) {
+    public void sendPackets(ServerPlayer player) {
         if (this.tabGroup == null) {
             return;
         }
 
-        this.team.setPlayerPrefix(new StringTextComponent(UtilChatColour.translateColourCodes(
-                '&',
+        this.team.setPlayerPrefix(UtilChatColour.colour(
                 UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getPrefix())
-        )));
-        this.team.setPlayerSuffix(new StringTextComponent(UtilChatColour.translateColourCodes(
-                '&',
+        ));
+        this.team.setPlayerSuffix(UtilChatColour.colour(
                 UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getSuffix())
-        )));
+        ));
 
-        Scoreboard scoreboard = new Scoreboard();
-
-        player.connection.send(new STeamsPacket(this.team, 0));
-        player.connection.send(new STeamsPacket(this.team, 2));
-        player.connection.send(new STeamsPacket(this.team, Lists.newArrayList(this.parent.getName()), 3));
+        player.connection.send(ClientboundSetPlayerTeamPacket.createAddOrModifyPacket(this.team, true));
+        player.connection.send(ClientboundSetPlayerTeamPacket.createAddOrModifyPacket(this.team, false));
+        player.connection.send(ClientboundSetPlayerTeamPacket.createPlayerPacket(this.team, this.parent.getName(), ClientboundSetPlayerTeamPacket.Action.ADD));
     }
 
     public void reCalculateGroup() {
@@ -84,14 +74,14 @@ public class TabAttribute extends AbstractForgeAttribute<ForgeTAB> {
 
     private void setupTeam() {
         Scoreboard scoreboard = new Scoreboard();
-        this.team = new ScorePlayerTeam(scoreboard, this.parent.getUuid().toString().substring(0, 15));
+        this.team = new PlayerTeam(scoreboard, this.parent.getUuid().toString().substring(0, 15));
         this.team.setAllowFriendlyFire(true);
         this.team.setCollisionRule(Team.CollisionRule.ALWAYS);
-        this.team.setDeathMessageVisibility(Team.Visible.NEVER);
-        this.team.setPlayerPrefix(new StringTextComponent(UtilChatColour.translateColourCodes('&',
-                UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getPrefix()))));
-        this.team.setPlayerSuffix(new StringTextComponent(UtilChatColour.translateColourCodes('&',
-                UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getSuffix()))));
+        this.team.setDeathMessageVisibility(Team.Visibility.NEVER);
+        this.team.setPlayerPrefix(UtilChatColour.colour(
+                UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getPrefix())));
+        this.team.setPlayerSuffix(UtilChatColour.colour(
+                UtilPlaceholder.replaceIdentifiers(this.parent.getParent(), this.tabGroup.getSuffix())));
         this.team.setSeeFriendlyInvisibles(false);
     }
 
