@@ -42,7 +42,7 @@ public class ForgeTAB {
 
         ForgeTabGroupFactory.init(this.config);
 
-        playerManager.registerAttribute(this, TabAttribute.class);
+        playerManager.registerAttribute(TabAttribute.class);
         new ForgeTaskBuilder()
                 .async(true)
                 .delay(10L)
