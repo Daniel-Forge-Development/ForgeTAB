@@ -44,7 +44,7 @@ public class PlayerUpdateTask implements Runnable {
 
     private void sendUpdatePackets(ServerPlayer player) {
         EnvyPlayer<ServerPlayer> envyPlayer = this.mod.getPlayerManager().getPlayer(player);
-        TabAttribute attribute = envyPlayer.getAttribute(ForgeTAB.class);
+        TabAttribute attribute = envyPlayer.getAttribute(TabAttribute.class);
 
         if (attribute == null) {
             return;

@@ -2,11 +2,11 @@ package com.envyful.tab.forge.api;
 
 import com.envyful.tab.api.TabGroup;
 import com.envyful.tab.forge.config.TABConfig;
-import com.google.common.collect.Lists;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ForgeTabGroupFactory {
 
-    private static final List<TabGroup> GROUPS = Lists.newCopyOnWriteArrayList();
+    private static final List<TabGroup> GROUPS = new CopyOnWriteArrayList<>();
 
     public static void init(TABConfig config) {
         for (ConfigurationNode groups : config.getNode().node("groups").childrenMap().values()) {

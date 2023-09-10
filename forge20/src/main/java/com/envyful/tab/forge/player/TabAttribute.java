@@ -2,7 +2,7 @@ package com.envyful.tab.forge.player;
 
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.player.ForgePlayerManager;
-import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
+import com.envyful.api.forge.player.attribute.ManagedForgeAttribute;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.tab.api.TabGroup;
@@ -16,13 +16,13 @@ import net.minecraft.world.scores.Team;
 
 import java.util.Objects;
 
-public class TabAttribute extends AbstractForgeAttribute<ForgeTAB> {
+public class TabAttribute extends ManagedForgeAttribute<ForgeTAB> {
 
     private PlayerTeam team;
     private TabGroup tabGroup;
 
-    public TabAttribute(ForgeTAB manager, ForgePlayerManager playerManager) {
-        super(manager, playerManager);
+    public TabAttribute(ForgePlayerManager playerManager) {
+        super(ForgeTAB.getInstance(), playerManager);
     }
 
     public void sendPackets(ServerPlayer player) {
