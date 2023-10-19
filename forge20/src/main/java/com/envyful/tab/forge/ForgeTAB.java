@@ -2,6 +2,7 @@ package com.envyful.tab.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.command.parser.ForgeAnnotationCommandParser;
 import com.envyful.api.forge.concurrency.ForgeTaskBuilder;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.tab.forge.api.ForgeTabGroupFactory;
@@ -26,7 +27,7 @@ public class ForgeTAB {
     private static ForgeTAB instance;
 
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
-    private final ForgeCommandFactory commandFactory = new ForgeCommandFactory();
+    private final ForgeCommandFactory commandFactory = new ForgeCommandFactory(ForgeAnnotationCommandParser::new, playerManager);
 
     private TABConfig config;
 
@@ -61,7 +62,7 @@ public class ForgeTAB {
 
     @SubscribeEvent
     public void onServerStarting(RegisterCommandsEvent event) {
-        this.commandFactory.registerCommand(event.getDispatcher(), new ReloadCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), this.commandFactory.parseCommand(new ReloadCommand()));
     }
 
     public TABConfig getConfig() {
