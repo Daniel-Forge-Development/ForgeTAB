@@ -13,7 +13,7 @@ showAsResourcePack=false
 
 [[mods]]
   modId="forgetab"
-  version="1.1.2"
+  version="1.2.0"
   displayName="TAB Forge"
   displayURL="https://discord.envyware.co.uk"
   credits="Envyful"
